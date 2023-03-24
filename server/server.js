@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 // Routes
 const restaurantsRouter = require('./routes/restaurants');
 const ordersRouter = require('./routes/orders');
+const usersRouter = require('./routes/users');
 
 // DB Connection
 mongoose.connect('mongodb://localhost:27017/delivery', {
@@ -21,6 +22,7 @@ app.use(express.json());
 // Use routes
 app.use('/restaurants', restaurantsRouter);
 app.use('/orders', ordersRouter);
+app.use('/users', usersRouter);
 
 // Main Server Error
 app.use((err, req, res, next) => {
