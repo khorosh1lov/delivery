@@ -14,11 +14,11 @@ To set up and run the application locally, follow these steps:
 
 ## API Endpoints - In Progress
 
-1. To receive all `restaurants` from the Server: `http://path-to-server/restaurants`
-2. To receive `one restaurant` by `ID`: `http://path-to-server/restaurants/:restaurantId`
-3. To receive `one restaurant` by `Slug`: `http://path-to-server/restaurants/name/:slug`
-4. To receive `all Dishes` for restaurant by `ID`: `http://path-to-server/restaurants/:restaurantId/dishes`
-5. To receive `one specific Dish` by `ID` for restaurant by `ID`: `http://path-to-server/:restaurantId/dishes/:dishId`
+1. To receive all `restaurants` from the Server: `https://deliveryapp-sever.herokuapp.com/restaurants`
+2. To receive `one restaurant` by `ID`: `https://deliveryapp-sever.herokuapp.com/restaurants/:restaurantId`
+3. To receive `one restaurant` by `Slug`: `https://deliveryapp-sever.herokuapp.com/restaurants/name/:slug`
+4. To receive `all Dishes` for restaurant by `ID`: `https://deliveryapp-sever.herokuapp.com/restaurants/:restaurantId/dishes`
+5. To receive `one specific Dish` by `ID` for restaurant by `ID`: `https://deliveryapp-sever.herokuapp.com/:restaurantId/dishes/:dishId`
 6. In Progress...
 
 ## Contributing

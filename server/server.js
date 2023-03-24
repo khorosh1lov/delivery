@@ -8,20 +8,24 @@ const restaurantsRouter = require('./routes/restaurants');
 const ordersRouter = require('./routes/orders');
 const usersRouter = require('./routes/users');
 
-const url = 'mongodb+srv://delivery-app-user:FwDTveu4Z6fxbMUY@delivery-app-db.kimyhfv.mongodb.net/?retryWrites=true&w=majority&useNewUrlParser=true&useUnifiedTopology=true';
+const remoteUrl = 'mongodb+srv://delivery-app-user:FwDTveu4Z6fxbMUY@delivery-app-db.kimyhfv.mongodb.net/?retryWrites=true&w=majority&useNewUrlParser=true&useUnifiedTopology=true';
+const localUrl = 'mongodb://localhost:27017/delivery';
 
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
 
+const useLocalDb = process.env.USE_LOCAL_DB === 'true';
+const dbUrl = useLocalDb ? localUrl : remoteUrl;
+
 // DB Connection
 mongoose
-	.connect(url, {
+	.connect(dbUrl, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	})
 	.then(() => {
-		console.log('Connected correctly to server');
+		console.log('Connected correctly to DB server');
 	})
 	.catch((err) => {
 		console.log(err.stack);
