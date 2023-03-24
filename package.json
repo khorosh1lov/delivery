@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "description": "Delivery app server",
   "main": "server/server.js",
-  "scripts": {},
+  "scripts": {
+    "start": "node server/server.js"
+  },
   "author": "Alexander Khoroshilov",
   "license": "ISC",
   "dependencies": {
