@@ -20,7 +20,9 @@ router.get('/:restaurantId', async (req, res) => {
 		console.log(restaurantId); // Resto ID in console
 
 		const restaurant = await Restaurant.findById(restaurantId);
-		if (restaurant == null) res.redirect('/');
+		if (restaurant == null) {
+			return res.redirect('/');
+		}
 
 		res.status(200).json(restaurant);
 	} catch (error) {
@@ -31,10 +33,12 @@ router.get('/:restaurantId', async (req, res) => {
 });
 
 // Endpoint for one restaurant by Slug
-router.get('/:slug', async (req, res) => {
+router.get('/name/:slug', async (req, res) => {
 	try {
 		const restaurant = await Restaurant.findOne({ slug: req.params.slug });
-		if (restaurant == null) res.redirect('/');
+		if (restaurant == null) {
+			return res.redirect('/');
+		}
 
 		res.status(200).json(restaurant);
 	} catch (error) {

@@ -18,9 +18,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Use Restaurant routes
+// Use routes
 app.use('/restaurants', restaurantsRouter);
-
 app.use('/orders', ordersRouter);
 
 // Main Server Error
