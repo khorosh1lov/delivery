@@ -7,11 +7,19 @@ Delivery App Server is a MongoDb + Express application with API Endpoints and us
 To set up and run the application locally, follow these steps:
 
 1. Clone the repository to your local machine.
+2. Navigate to the project directory.
+3. Run `npm install` or `yarn install` to install the required dependencies.
+4. Run `node server` from the server folder: Starts the local server on your
+   machine on your localhost port 2200.
 
 ## API Endpoints - In Progress
 
-1. To receive all restaurants from the Server: ``
-2. In Progress...
+1. To receive all `restaurants` from the Server: `http://path-to-server/restaurants`
+2. To receive `one restaurant` by `ID`: `http://path-to-server/restaurants/:restaurantId`
+3. To receive `one restaurant` by `Slug`: `http://path-to-server/restaurants/name/:slug`
+4. To receive `all Dishes` for restaurant by `ID`: `http://path-to-server/restaurants/:restaurantId/dishes`
+5. To receive `one specific Dish` by `ID` for restaurant by `ID`: `http://path-to-server/:restaurantId/dishes/:dishId`
+6. In Progress...
 
 ## Contributing
 
