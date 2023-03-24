@@ -8,11 +8,11 @@ const restaurantsRouter = require('./routes/restaurants');
 const ordersRouter = require('./routes/orders');
 const usersRouter = require('./routes/users');
 
+const url = 'mongodb+srv://delivery-app-user:FwDTveu4Z6fxbMUY@delivery-app-db.kimyhfv.mongodb.net/?retryWrites=true&w=majority&useNewUrlParser=true&useUnifiedTopology=true';
+
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
-
-const url = 'mongodb+srv://delivery-app-user:FwDTveu4Z6fxbMUY@delivery-app-db.kimyhfv.mongodb.net/?retryWrites=true&w=majority&useNewUrlParser=true&useUnifiedTopology=true';
 
 // DB Connection
 mongoose
