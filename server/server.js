@@ -8,11 +8,24 @@ const restaurantsRouter = require('./routes/restaurants');
 const ordersRouter = require('./routes/orders');
 const usersRouter = require('./routes/users');
 
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config();
+}
+
+const url = 'mongodb+srv://delivery-app-user:FwDTveu4Z6fxbMUY@delivery-app-db.kimyhfv.mongodb.net/?retryWrites=true&w=majority&useNewUrlParser=true&useUnifiedTopology=true';
+
 // DB Connection
-mongoose.connect('mongodb://localhost:27017/delivery', {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-});
+mongoose
+	.connect(url, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	})
+	.then(() => {
+		console.log('Connected correctly to server');
+	})
+	.catch((err) => {
+		console.log(err.stack);
+	});
 
 // Init App
 const app = express();
@@ -31,7 +44,7 @@ app.use((err, req, res, next) => {
 });
 
 // Start Server
-const port = process.env.PORT || 2200;
-app.listen(port, () => {
-	console.log(`Server started on port:${port}`);
+const PORT = process.env.PORT || 2200;
+app.listen(PORT, () => {
+	console.log(`Server is running on port ${PORT}`);
 });
