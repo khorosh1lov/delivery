@@ -2,73 +2,90 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 const Restaurant = require('../models/resto');
 const Order = require('../models/order');
+const faker = require('faker');
+const bcrypt = require('bcrypt');
 
-mongoose.connect('mongodb://localhost:27017/delivery', {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-});
+const remoteUrl = 'mongodb+srv://delivery-app-user:FwDTveu4Z6fxbMUY@delivery-app-db.kimyhfv.mongodb.net/?retryWrites=true&w=majority&useNewUrlParser=true&useUnifiedTopology=true';
+
+mongoose
+	.connect(remoteUrl, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	})
+	.then(() => {
+		console.log('Connected correctly to DB server');
+	})
+	.catch((err) => {
+		console.log(err.stack);
+	});
 
 async function createUserWithOrders() {
 	try {
-		const newUser = new User({
-			name: 'John Doe',
-			email: 'john.doe@mail.com',
-			password: 'password123',
-			address: {
-				street: '12345 Elm St',
-				city: 'Seattle',
-				state: 'WA',
-				zip: '98101',
-			},
-			phone: '+1 206-555-1234',
-		});
+		const userCount = faker.datatype.number({ min: 20, max: 30 });
 
-		const savedUser = await newUser.save();
-		console.log('User created:', savedUser);
+		for (let i = 0; i < userCount; i++) {
+			const plainPassword = faker.internet.password();
+			const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
-		const restaurant = await Restaurant.findOne({ slug: 'tommy-food' });
+			const newUser = new User({
+				name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+				email: faker.internet.email(),
+				password: hashedPassword,
+				address: {
+					street: faker.address.streetAddress(),
+					city: faker.address.city(),
+					state: faker.address.stateAbbr(),
+					zip: faker.address.zipCode(),
+				},
+				phone: faker.phone.phoneNumber(),
+			});
 
-		if (!restaurant) {
-			console.error('Error: Restaurant not found');
-			return;
+			const savedUser = await newUser.save();
+			console.log('User created:', savedUser);
+
+			const orderCount = faker.datatype.number({ min: 2, max: 5 });
+
+			let orders = [];
+
+			for (let j = 0; j < orderCount; j++) {
+				const restaurant = await Restaurant.aggregate([{ $sample: { size: 1 } }]).exec();
+				const chosenRestaurant = restaurant[0];
+
+				if (!chosenRestaurant) {
+					console.error('Error: Restaurant not found');
+					return;
+				}
+
+				const dishCount = chosenRestaurant.dishes.length;
+				const dish1 = chosenRestaurant.dishes[faker.datatype.number({ min: 0, max: dishCount - 1 })];
+				const dish2 = chosenRestaurant.dishes[faker.datatype.number({ min: 0, max: dishCount - 1 })];
+
+				const order = {
+					user: savedUser._id,
+					items: [
+						{
+							dish: dish1._id,
+							quantity: faker.datatype.number({ min: 1, max: 3 }),
+							restaurant: chosenRestaurant._id,
+						},
+						{
+							dish: dish2._id,
+							quantity: faker.datatype.number({ min: 1, max: 3 }),
+							restaurant: chosenRestaurant._id,
+						},
+					],
+					totalPrice: dish1.price + dish2.price,
+					deliveryAddress: savedUser.address,
+				};
+
+				orders.push(order);
+			}
+
+			const savedOrders = await Order.insertMany(orders);
+			console.log('Orders created:', savedOrders);
 		}
-
-		const orders = [
-			{
-				user: savedUser._id,
-				items: [
-					{
-						dish: restaurant.dishes[0]._id,
-						quantity: 2,
-						restaurant: restaurant._id,
-					},
-					{
-						dish: restaurant.dishes[1]._id,
-						quantity: 1,
-						restaurant: restaurant._id,
-					},
-				],
-				totalPrice: restaurant.dishes[0].price * 2 + restaurant.dishes[1].price,
-				deliveryAddress: savedUser.address,
-			},
-			{
-				user: savedUser._id,
-				items: [
-					{
-						dish: restaurant.dishes[0]._id,
-						quantity: 1,
-						restaurant: restaurant._id,
-					},
-				],
-				totalPrice: restaurant.dishes[0].price,
-				deliveryAddress: savedUser.address,
-			},
-		];
-
-		const savedOrders = await Order.insertMany(orders);
-		console.log('Orders created:', savedOrders);
 	} catch (error) {
-		console.error('Error creating user and orders:', error);
+		console.error('Error while creating users and order:', error);
 	} finally {
 		mongoose.connection.close();
 	}
