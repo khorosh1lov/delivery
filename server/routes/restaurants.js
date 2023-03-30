@@ -32,22 +32,6 @@ router.get('/:restaurantId', async (req, res) => {
 	}
 });
 
-// Endpoint for one restaurant by Slug
-router.get('/restaurant/:slug', async (req, res) => {
-	try {
-		const restaurant = await Restaurant.findOne({ slug: req.params.slug });
-		if (restaurant == null) {
-			return res.redirect('/');
-		}
-
-		res.status(200).json(restaurant);
-	} catch (error) {
-		console.error(error);
-
-		res.status(500).json({ message: 'Error with restaurant receiving' });
-	}
-});
-
 // Endpoint for all Dishes in restaurant
 router.get('/:restaurantId/dishes', async (req, res) => {
 	const restaurantId = req.params.restaurantId;
@@ -85,6 +69,22 @@ router.get('/:restaurantId/dishes/:dishId', async (req, res) => {
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ message: 'Error with dish receiving' });
+	}
+});
+
+// Endpoint for one restaurant by Slug
+router.get('/restaurant/:slug', async (req, res) => {
+	try {
+		const restaurant = await Restaurant.findOne({ slug: req.params.slug });
+		if (restaurant == null) {
+			return res.redirect('/');
+		}
+
+		res.status(200).json(restaurant);
+	} catch (error) {
+		console.error(error);
+
+		res.status(500).json({ message: 'Error with restaurant receiving' });
 	}
 });
 
