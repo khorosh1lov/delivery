@@ -93,7 +93,7 @@ passport.deserializeUser(async (id, done) => {
 });
 
 // Use routes
-app.use('/', restaurantsRouter).use('/restaurants', restaurantsRouter);
+app.use('/restaurants', restaurantsRouter);
 app.use('/orders', ordersRouter);
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
