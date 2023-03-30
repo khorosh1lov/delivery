@@ -33,7 +33,7 @@ router.get('/:restaurantId', async (req, res) => {
 });
 
 // Endpoint for one restaurant by Slug
-router.get('/name/:slug', async (req, res) => {
+router.get('/restaurant/:slug', async (req, res) => {
 	try {
 		const restaurant = await Restaurant.findOne({ slug: req.params.slug });
 		if (restaurant == null) {
@@ -43,7 +43,7 @@ router.get('/name/:slug', async (req, res) => {
 		res.status(200).json(restaurant);
 	} catch (error) {
 		console.error(error);
-		
+
 		res.status(500).json({ message: 'Error with restaurant receiving' });
 	}
 });

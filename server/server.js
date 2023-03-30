@@ -39,7 +39,7 @@ const {
 passportConfig(app);
 
 // Use Routes
-app.use('/restaurants', restaurantsRouter);
+app.use('/', restaurantsRouter);
 app.use('/orders', ordersRouter);
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
