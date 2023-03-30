@@ -36,12 +36,6 @@ class BadRequestError extends HttpError {
 	}
 }
 
-class UnauthorizedError extends HttpError {
-	constructor(message = 'Unauthorized') {
-		super(401, 'UNAUTHORIZED', message);
-	}
-}
-
 class InternalServerError extends HttpError {
 	constructor(message = 'Internal Server Error') {
 		super(500, 'INTERNAL_SERVER_ERROR', message);
