@@ -40,7 +40,7 @@ passportConfig(app);
 
 // Use Routes
 app.use('/', restaurantsRouter);
-app.use('/orders', ordersRouter);
+//app.use('/orders', ordersRouter);
 app.use('/user', usersRouter);
 app.use('/auth', authRouter);
 
