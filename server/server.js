@@ -7,6 +7,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const User = require('./models/user');
+const bcrypt = require('bcrypt');
 
 // Routes
 const restaurantsRouter = require('./routes/restaurants');
