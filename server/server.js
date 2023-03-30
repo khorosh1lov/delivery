@@ -17,6 +17,7 @@ const usersRouter = require('./routes/users');
 
 // Middleware
 const { setUser } = require('./middleware/user');
+const { handleFavicon } = require('./middleware/handleFavicon');
 
 // DB Connection
 connectDB();
@@ -25,6 +26,9 @@ connectDB();
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Use handleFavicon Middleware: Favicon avoiding, remove after development
+app.use(handleFavicon);
 
 // Use setUser Middleware
 app.use(setUser); 
