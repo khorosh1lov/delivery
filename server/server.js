@@ -29,6 +29,12 @@ app.use(express.json());
 // Use setUser Middleware
 app.use(setUser); 
 
+// Error Classes
+const {
+	NotFoundError,
+	InternalServerError,
+} = require('./errors');
+
 // Passport configuration
 passportConfig(app);
 
@@ -40,15 +46,16 @@ app.use('/users', usersRouter);
 
 // 404 Not Found Error
 app.use((req, res, next) => {
-	res.status(404).send('Page not found');
+	next(new NotFoundError('Page not found'));
 });
 
 // Main Server Error
 app.use((err, req, res, next) => {
 	const statusCode = err.statusCode || 500;
+	const errorCode = err.errorCode || 'INTERNAL_SERVER_ERROR';
 	const message = err.message || 'Internal Server Error';
 	console.error(err.stack);
-	res.status(statusCode).send(message);
+	res.status(statusCode).json({ status: statusCode, code: errorCode, error: message });
 });
 
 // Start Server

@@ -5,6 +5,4 @@ function setUser(req, res, next) {
 	next();
 }
 
-module.exports = {
-	setUser,
-};
+module.exports = { setUser };
