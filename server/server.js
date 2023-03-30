@@ -1,7 +1,13 @@
+// .ENV
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config();
+}
+
 // Imports
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const { connectDB, dbUrl } = require('./config/database');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
@@ -18,28 +24,8 @@ const usersRouter = require('./routes/users');
 // Middleware
 const { setUser } = require('./middleware/user');
 
-const remoteUrl = 'mongodb+srv://delivery-app-user:FwDTveu4Z6fxbMUY@delivery-app-db.kimyhfv.mongodb.net/?retryWrites=true&w=majority&useNewUrlParser=true&useUnifiedTopology=true';
-const localUrl = 'mongodb://localhost:27017/delivery';
-
-if (process.env.NODE_ENV !== 'production') {
-	require('dotenv').config();
-}
-
-const useLocalDb = process.env.USE_LOCAL_DB === 'true';
-const dbUrl = useLocalDb ? localUrl : remoteUrl;
-
 // DB Connection
-mongoose
-	.connect(dbUrl, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
-	.then(() => {
-		console.log('Connected correctly to DB server');
-	})
-	.catch((err) => {
-		console.log(err.stack);
-	});
+connectDB();
 
 // Session store
 const store = new MongoDBStore({
