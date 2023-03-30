@@ -20,24 +20,29 @@ const UserSchema = new mongoose.Schema({
 	address: {
 		street: {
 			type: String,
-			required: true,
+			required: false,
+			default: '',
 		},
 		city: {
 			type: String,
-			required: true,
+			required: false,
+			default: '',
 		},
 		state: {
 			type: String,
-			required: true,
+			required: false,
+			default: '',
 		},
 		zip: {
 			type: String,
-			required: true,
+			required: false,
+			default: '',
 		},
 	},
 	phone: {
 		type: String,
-		required: true,
+		required: false,
+		default: '',
 	},
 	cart: {
 		type: [ItemSchema],
