@@ -6,14 +6,8 @@ if (process.env.NODE_ENV !== 'production') {
 // Imports
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
-const { connectDB, dbUrl } = require('./config/database');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
-const User = require('./models/user');
-const bcrypt = require('bcrypt');
+const { connectDB } = require('./config/database');
+const passportConfig = require('./config/passport');
 
 // Routes
 const restaurantsRouter = require('./routes/restaurants');
@@ -27,60 +21,18 @@ const { setUser } = require('./middleware/user');
 // DB Connection
 connectDB();
 
-// Session store
-const store = new MongoDBStore({
-	uri: dbUrl,
-	collection: 'sessions',
-});
-
 // Init App
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(
-	session({
-		secret: process.env.SESSION_SECRET || 'secret',
-		resave: false,
-		saveUninitialized: false,
-		store: store,
-		cookie: {
-			maxAge: 1000 * 60 * 60 * 24, // 1 day
-		},
-	}),
-);
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(setUser); // Use setUser middleware
+
+// Use setUser Middleware
+app.use(setUser); 
 
 // Passport configuration
-passport.use(
-	new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
-		const user = await User.findOne({ email: email });
+passportConfig(app);
 
-		if (!user) {
-			return done(null, false, { message: 'Incorrect email or password.' });
-		}
-
-		const isValidPassword = await bcrypt.compare(password, user.password);
-
-		if (isValidPassword) {
-			return done(null, user);
-		} else {
-			return done(null, false, { message: 'Incorrect email or password.' });
-		}
-	}),
-);
-
-passport.serializeUser((user, done) => {
-	done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-	const user = await User.findById(id);
-	done(null, user);
-});
-
-// Use routes
+// Use Routes
 app.use('/restaurants', restaurantsRouter);
 app.use('/orders', ordersRouter);
 app.use('/auth', authRouter);
