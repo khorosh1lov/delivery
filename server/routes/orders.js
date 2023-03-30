@@ -4,10 +4,11 @@ const User = require('../models/user');
 //const ensureAuth = require('../middleware/auth');
 //const checkUserAccess = require('../middleware/checkAccess');
 const { NotFoundError, ForbiddenError } = require('../errors');
+const { setUser } = require('../middleware/user'); // Import the setUser middleware
 const router = express.Router();
 
 // Endpoint to get all orders for a user by their ID
-router.get('/:userId', async (req, res, next) => {
+router.get('/:userId', setUser, async (req, res, next) => {
 	try {
 		const userId = req.params.userId;
 
