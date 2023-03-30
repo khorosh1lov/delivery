@@ -1,4 +1,4 @@
-const handleFavicon = (req, res, next) => {
+function handleFavicon(req, res, next) {
 	if (req.url === '/favicon.ico') {
 		res.status(204).end();
 	} else {
@@ -6,4 +6,4 @@ const handleFavicon = (req, res, next) => {
 	}
 };
 
-module.exports = handleFavicon;
+module.exports = { handleFavicon };
