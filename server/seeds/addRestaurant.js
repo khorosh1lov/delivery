@@ -10,11 +10,13 @@ const axios = require('axios');
 	try {
 		await connectDB(); // Connect to the database using the imported function
 
-		function generateDishes() {
+		async function generateDishes() {
 			const dishes = [];
 			const dishCount = faker.datatype.number({ min: 5, max: 20 });
 
 			for (let i = 0; i < dishCount; i++) {
+				const imageResponse = await axios.get('https://loremflickr.com/300/300/food');
+				
 				dishes.push(
 					new Dish({
 						name: faker.random.words(2),
@@ -22,6 +24,7 @@ const axios = require('axios');
 						category: faker.random.arrayElement(['Main Course', 'Salad', 'Soup', 'Appetizer', 'Dessert', 'Drink', 'Snack', 'BBQ', 'Grill']),
 						price: faker.commerce.price(5, 25),
 						specialOffer: 'none',
+						image: imageResponse.request.res.responseUrl,
 						ingredients: Array.from({ length: faker.datatype.number({ min: 2, max: 8 }) }, () => faker.random.word()),
 						allergens: Array.from({ length: faker.datatype.number({ min: 0, max: 3 }) }, () => faker.random.word()),
 					}),
@@ -46,7 +49,7 @@ const axios = require('axios');
 		async function createRestaurants() {
 			try {
 				for (let i = 0; i < 30; i++) {
-					const dishes = generateDishes();
+					const dishes = await generateDishes();
 
 					const logoResponse = await axios.get('https://loremflickr.com/200/200/logo');
 					const headerImageResponse = await axios.get('https://loremflickr.com/640/360/cafe');
