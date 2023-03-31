@@ -3,6 +3,7 @@ const Restaurant = require('../models/resto');
 const router = express.Router();
 const ensureAdmin = require('../middlewares/ensureAdmin');
 const { addRestaurant, addDish } = require('../controllers/restaurants');
+const dummyAuth = require('../middlewares/dummyAuth'); // Import dummyAuth
 
 // Endpoint for all restaurants
 router.get('/', async (req, res) => {
@@ -93,9 +94,9 @@ router.get('/restaurant/:slug', async (req, res) => {
 // Admin
 
 // Add a new restaurant
-router.post('/', ensureAdmin, addRestaurant);
+router.post('/', dummyAuth, addRestaurant);
 
 // Add a new dish to a restaurant
-router.post('/:restaurantId/dishes', ensureAdmin, addDish);
+router.post('/:restaurantId/dishes', dummyAuth, addDish);
 
 module.exports = router;
