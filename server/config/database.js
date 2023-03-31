@@ -26,4 +26,4 @@ const connectDB = async () => {
 	}
 };
 
-module.exports = { connectDB, dbUrl };
+module.exports = { connectDB, dbUrl, mongoose };

@@ -32,16 +32,40 @@ const RestaurantSchema = new mongoose.Schema({
 		},
 		email: {
 			type: String,
-			required: true,
+			required: false,
+			default: '',
 		},
 	},
 	cuisine: { type: String, required: true },
-	rating: { type: Number, required: true },
+	rating: { type: Number, required: false, default: 3 },
 	dishes: [new Schema(require('./dish').schema)],
 	slug: {
 		type: String,
 		required: true,
 		unique: true,
+	},
+	workingDays: {
+		type: [String], // Array of strings representing the days
+		required: false,
+		default: ''
+	},
+	workingHours: {
+		type: {
+			from: String, // From time as string e.g. "09:00"
+			to: String, // To time as string e.g. "18:00"
+		},
+		required: false,
+		default: ''
+	},
+	logo: {
+		type: String, // URL of the logo image
+		required: false,
+		default: ''
+	},
+	headerImage: {
+		type: String, // URL of the header image
+		required: false,
+		default: ''
 	},
 });
 
