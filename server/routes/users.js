@@ -55,30 +55,30 @@ router.get('/:userId/orders', ensureAuth, checkUserAccess, async (req, res, next
 
 // Endpoint for a specific order for a user by User ID and Order ID
 router.get('/:userId/orders/:orderId', dummyAuth, checkUserAccess, async (req, res, next) => {
-  try {
-    const userId = req.params.userId;
-    const orderId = req.params.orderId;
+	try {
+		const userId = req.params.userId;
+		const orderId = req.params.orderId;
 
-    const user = await User.findById(userId);
+		const user = await User.findById(userId);
 
-    if (user == null) {
-      throw new NotFoundError('User not found');
-    }
+		if (user == null) {
+			throw new NotFoundError('User not found');
+		}
 
-    if (req.user._id.toString() !== userId) {
-      throw new ForbiddenError('Access denied');
-    }
+		if (req.user._id.toString() !== userId) {
+			throw new ForbiddenError('Access denied');
+		}
 
-    const order = await Order.findOne({ _id: orderId, user: userId });
+		const order = await Order.findOne({ _id: orderId, user: userId }).populate('user');
 
-    if (order == null) {
-      throw new NotFoundError('Order not found');
-    }
+		if (order == null) {
+			throw new NotFoundError('Order not found');
+		}
 
-    res.status(200).json(order);
-  } catch (error) {
-    next(error);
-  }
+		res.status(200).json(order);
+	} catch (error) {
+		next(error);
+	}
 });
 
 // Endpoint to create a new order for a user
