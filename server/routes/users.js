@@ -2,6 +2,7 @@ const express = require('express');
 const Order = require('../models/order');
 const User = require('../models/user');
 const ensureAuth = require('../middlewares/auth');
+const dummyAuth = require('../middlewares/dummyAuth'); // I
 const checkUserAccess = require('../middlewares/checkAccess');
 const { NotFoundError, ForbiddenError } = require('../errors');
 const router = express.Router();
@@ -50,6 +51,34 @@ router.get('/:userId/orders', ensureAuth, checkUserAccess, async (req, res, next
 	} catch (error) {
 		next(error);
 	}
+});
+
+// Endpoint for a specific order for a user by User ID and Order ID
+router.get('/:userId/orders/:orderId', dummyAuth, checkUserAccess, async (req, res, next) => {
+  try {
+    const userId = req.params.userId;
+    const orderId = req.params.orderId;
+
+    const user = await User.findById(userId);
+
+    if (user == null) {
+      throw new NotFoundError('User not found');
+    }
+
+    if (req.user._id.toString() !== userId) {
+      throw new ForbiddenError('Access denied');
+    }
+
+    const order = await Order.findOne({ _id: orderId, user: userId });
+
+    if (order == null) {
+      throw new NotFoundError('Order not found');
+    }
+
+    res.status(200).json(order);
+  } catch (error) {
+    next(error);
+  }
 });
 
 // Endpoint to create a new order for a user
