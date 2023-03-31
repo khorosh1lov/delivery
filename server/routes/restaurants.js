@@ -1,6 +1,8 @@
 const express = require('express');
 const Restaurant = require('../models/resto');
 const router = express.Router();
+const ensureAdmin = require('../middlewares/ensureAdmin');
+const { addRestaurant, addDish } = require('../controllers/restaurants');
 
 // Endpoint for all restaurants
 router.get('/', async (req, res) => {
@@ -87,5 +89,13 @@ router.get('/restaurant/:slug', async (req, res) => {
 		res.status(500).json({ message: 'Error with restaurant receiving' });
 	}
 });
+
+// Admin
+
+// Add a new restaurant
+router.post('/', ensureAdmin, addRestaurant);
+
+// Add a new dish to a restaurant
+router.post('/:restaurantId/dishes', ensureAdmin, addDish);
 
 module.exports = router;

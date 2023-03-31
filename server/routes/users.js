@@ -1,8 +1,8 @@
 const express = require('express');
 const Order = require('../models/order');
 const User = require('../models/user');
-const ensureAuth = require('../middleware/auth');
-const checkUserAccess = require('../middleware/checkAccess');
+const ensureAuth = require('../middlewares/auth');
+const checkUserAccess = require('../middlewares/checkAccess');
 const { NotFoundError, ForbiddenError } = require('../errors');
 const router = express.Router();
 

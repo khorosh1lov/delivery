@@ -48,6 +48,11 @@ const UserSchema = new mongoose.Schema({
 		type: [ItemSchema],
 		default: [],
 	},
+	role: {
+		type: String,
+		required: false,
+		default: 'customer',
+	},
 	registeredAt: {
 		type: Date,
 		default: Date.now,

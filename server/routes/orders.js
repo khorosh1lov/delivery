@@ -1,11 +1,11 @@
 const express = require('express');
 const Order = require('../models/order');
 const User = require('../models/user');
-//const ensureAuth = require('../middleware/auth');
-//const checkUserAccess = require('../middleware/checkAccess');
-//const { setUser } = require('../middleware/user');
+//const ensureAuth = require('../middlewares/auth');
+//const checkUserAccess = require('../middlewares/checkAccess');
+//const { setUser } = require('../middlewares/user');
 const { NotFoundError, ForbiddenError } = require('../errors');
-const dummyAuth = require('../middleware/dummyAuth'); // Import dummyAuth
+const dummyAuth = require('../middlewares/dummyAuth'); // Import dummyAuth
 const router = express.Router();
 
 // Endpoint to get all orders for a user by their ID
