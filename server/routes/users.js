@@ -69,7 +69,7 @@ router.get('/:userId/orders/:orderId', dummyAuth, checkUserAccess, async (req, r
 			throw new ForbiddenError('Access denied');
 		}
 
-		const order = await Order.findOne({ _id: orderId, user: userId }).populate('user');
+		const order = await Order.findOne({ _id: orderId, user: userId }).populate('user').populate('items.dish').populate('items.restaurant');
 
 		if (order == null) {
 			throw new NotFoundError('Order not found');
@@ -80,6 +80,7 @@ router.get('/:userId/orders/:orderId', dummyAuth, checkUserAccess, async (req, r
 		next(error);
 	}
 });
+
 
 // Endpoint to create a new order for a user
 router.post('/:userId/orders', ensureAuth, checkUserAccess, async (req, res, next) => {

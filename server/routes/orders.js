@@ -23,13 +23,14 @@ router.get('/:userId', dummyAuth, async (req, res, next) => {
 			throw new ForbiddenError('Access denied');
 		}
 
-		const orders = await Order.find({ user: userId }).populate('user');
+		const orders = await Order.find({ user: userId }).populate('user').populate('items.dish').populate('items.restaurant');
 
 		res.status(200).json(orders);
 	} catch (error) {
 		next(error);
 	}
 });
+
 
 
 module.exports = router;
