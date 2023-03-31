@@ -16,8 +16,8 @@ const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 
 // Middleware
-const { setUser } = require('./middleware/user');
-const { handleFavicon } = require('./middleware/handleFavicon');
+const { setUser } = require('./middlewares/user');
+const { handleFavicon } = require('./middlewares/handleFavicon');
 
 // DB Connection
 connectDB();
