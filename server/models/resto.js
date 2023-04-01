@@ -8,38 +8,22 @@ const RestaurantSchema = new mongoose.Schema({
 		required: true,
 	},
 	address: {
-		street: {
-			type: String,
-			required: false,
-			default: '',
+		type: {
+			street: String,
+			city: String,
+			state: String,
+			zip: String,
 		},
-		city: {
-			type: String,
-			required: false,
-			default: '',
-		},
-		state: {
-			type: String,
-			required: false,
-			default: '',
-		},
-		zip: {
-			type: String,
-			required: false,
-			default: '',
-		},
+		required: false,
+		default: '',
 	},
 	contactInfo: {
-		phone: {
-			type: String,
-			required: false,
-			default: '',
+		type: {
+			phone: String,
+			email: String,
 		},
-		email: {
-			type: String,
-			required: false,
-			default: '',
-		},
+		required: false,
+		default: '',
 	},
 	cuisine: { type: String, required: true },
 	rating: { type: Number, required: false, default: 3 },
