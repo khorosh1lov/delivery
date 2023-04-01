@@ -30,9 +30,9 @@ const path = require('path');
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// CORS
+// CORS config
 const corsOptions = {
-	origin: '*',
+	origin: process.env.FRONT_END_APP_URL || 'https://delivery-front-app.herokuapp.com',
 	optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
@@ -42,6 +42,7 @@ app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 	next();
 });
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
 
