@@ -18,7 +18,7 @@ const uploadsRouter = require('./routes/uploads');
 
 // Middleware
 const { setUser } = require('./middlewares/user');
-const { handleFavicon } = require('./middlewares/handleFavicon');
+//const { handleFavicon } = require('./middlewares/handleFavicon');
 
 // DB Connection
 connectDB();
@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 // Use handleFavicon Middleware: Favicon avoiding, remove after development
-app.use(handleFavicon);
+//app.use(handleFavicon);
 
 // Use setUser Middleware
 app.use(setUser); 
