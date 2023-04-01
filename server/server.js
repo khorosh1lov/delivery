@@ -32,17 +32,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // CORS config
 const corsOptions = {
-	origin: process.env.FRONT_END_APP_URL || 'https://delivery-front-app.herokuapp.com',
-	optionsSuccessStatus: 200,
+  origin: process.env.FRONT_END_APP_URL || 'https://delivery-front-app.herokuapp.com',
+  optionsSuccessStatus: 200,
+  allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+  methods: 'GET, POST, PUT, DELETE, OPTIONS',
+  credentials: true,
 };
 app.use(cors(corsOptions));
-app.use((req, res, next) => {
-	res.header('Access-Control-Allow-Origin', process.env.FRONT_END_APP_URL);
-	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-	res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-	next();
-});
-app.options('*', cors(corsOptions));
 
 app.use(express.json());
 
