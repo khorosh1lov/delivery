@@ -3,6 +3,7 @@ const Restaurant = require('../models/resto');
 const router = express.Router();
 const ensureAdmin = require('../middlewares/ensureAdmin');
 const { addRestaurant, addDish } = require('../controllers/restaurants');
+const upload = require('../middlewares/upload');
 const dummyAuth = require('../middlewares/dummyAuth'); // Import dummyAuth
 
 // Endpoint for all restaurants
@@ -95,6 +96,15 @@ router.get('/restaurant/:slug', async (req, res) => {
 
 // Add a new restaurant
 router.post('/', dummyAuth, addRestaurant);
+
+// Upload new images
+app.post('/upload', upload.single('image'), (req, res) => {
+	if (req.file) {
+		res.status(201).json({ imageUrl: `/uploads/${req.file.filename}` });
+	} else {
+		res.status(400).json({ message: 'Error uploading image' });
+	}
+});
 
 // Add a new dish to a restaurant
 router.post('/:restaurantId/dishes', dummyAuth, addDish);
