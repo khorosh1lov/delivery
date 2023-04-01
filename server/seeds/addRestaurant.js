@@ -6,17 +6,56 @@ const Dish = require('../models/dish');
 const { connectDB, mongoose } = require('../config/database');
 const axios = require('axios');
 
+const API_KEY = process.env.PEXELS_API_KEY;
+const PEXELS_API_URL = 'https://api.pexels.com/v1/search';
+
+const fetchImages = async (query, width, height, perPage = 10, page = 1) => {
+	try {
+		const response = await axios.get(PEXELS_API_URL, {
+			headers: {
+				Authorization: API_KEY,
+			},
+			params: {
+				query,
+				per_page: perPage,
+				page,
+			},
+		});
+
+		const photos = response.data.photos.map((photo) => {
+			const url = new URL(photo.src.medium);
+			url.searchParams.set('w', width);
+			url.searchParams.set('h', height);
+			return {
+				...photo,
+				src: {
+					...photo.src,
+					medium: url.href,
+				},
+			};
+		});
+
+		return photos;
+	} catch (error) {
+		console.error('Error fetching images from Pexels:', error);
+		return [];
+	}
+};
+
+
 (async () => {
 	try {
-		await connectDB(); // Connect to the database using the imported function
+		await connectDB();
 
 		async function generateDishes() {
 			const dishes = [];
-			const dishCount = faker.datatype.number({ min: 5, max: 20 });
+			const dishCount = faker.datatype.number({ min: 3, max: 7 });
+
+			const foodImages = await fetchImages('food', 400, 400, dishCount);
 
 			for (let i = 0; i < dishCount; i++) {
-				const imageResponse = await axios.get('https://loremflickr.com/300/300/food');
-				
+				const image = foodImages[i] ? foodImages[i].src.medium : '';
+
 				dishes.push(
 					new Dish({
 						name: faker.random.words(2),
@@ -24,7 +63,7 @@ const axios = require('axios');
 						category: faker.random.arrayElement(['Main Course', 'Salad', 'Soup', 'Appetizer', 'Dessert', 'Drink', 'Snack', 'BBQ', 'Grill']),
 						price: faker.commerce.price(5, 25),
 						specialOffer: 'none',
-						image: imageResponse.request.res.responseUrl,
+						image: image,
 						ingredients: Array.from({ length: faker.datatype.number({ min: 2, max: 8 }) }, () => faker.random.word()),
 						allergens: Array.from({ length: faker.datatype.number({ min: 0, max: 3 }) }, () => faker.random.word()),
 					}),
@@ -48,11 +87,13 @@ const axios = require('axios');
 
 		async function createRestaurants() {
 			try {
-				for (let i = 0; i < 30; i++) {
+				const logoImages = await fetchImages('logo', 400, 400, 25);
+				const headerImages = await fetchImages('cafe', 720, 360, 25);
+				
+				for (let i = 0; i < 25; i++) {
 					const dishes = await generateDishes();
-
-					const logoResponse = await axios.get('https://loremflickr.com/200/200/logo');
-					const headerImageResponse = await axios.get('https://loremflickr.com/640/360/cafe');
+					const logo = logoImages[i] ? logoImages[i].src.medium : '';
+					const headerImage = headerImages[i] ? headerImages[i].src.medium : '';
 
 					const newRestaurant = new Restaurant({
 						name: faker.company.companyName(),
@@ -72,8 +113,8 @@ const axios = require('axios');
 						slug: faker.helpers.slugify(faker.company.companyName()),
 						workingDays: randomWorkingDays(),
 						workingHours: randomWorkingHours(),
-						logo: logoResponse.request.res.responseUrl,
-						headerImage: headerImageResponse.request.res.responseUrl,
+						logo: logo,
+						headerImage: headerImage,
 					});
 
 					const savedRestaurant = await newRestaurant.save();

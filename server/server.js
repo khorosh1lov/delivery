@@ -24,7 +24,14 @@ connectDB();
 
 // Init App
 const app = express();
-app.use(cors());
+
+// CORS
+const corsOptions = {
+	origin: '*',
+	optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 // Use handleFavicon Middleware: Favicon avoiding, remove after development
