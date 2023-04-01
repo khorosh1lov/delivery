@@ -10,25 +10,30 @@ const RestaurantSchema = new mongoose.Schema({
 	address: {
 		street: {
 			type: String,
-			required: true,
+			required: false,
+			default: '',
 		},
 		city: {
 			type: String,
-			required: true,
+			required: false,
+			default: '',
 		},
 		state: {
 			type: String,
-			required: true,
+			required: false,
+			default: '',
 		},
 		zip: {
 			type: String,
-			required: true,
+			required: false,
+			default: '',
 		},
 	},
 	contactInfo: {
 		phone: {
 			type: String,
-			required: true,
+			required: false,
+			default: '',
 		},
 		email: {
 			type: String,
@@ -47,7 +52,7 @@ const RestaurantSchema = new mongoose.Schema({
 	workingDays: {
 		type: [String], // Array of strings representing the days
 		required: false,
-		default: ''
+		default: '',
 	},
 	workingHours: {
 		type: {
@@ -55,17 +60,17 @@ const RestaurantSchema = new mongoose.Schema({
 			to: String, // To time as string e.g. "18:00"
 		},
 		required: false,
-		default: ''
+		default: '',
 	},
 	logo: {
 		type: String, // URL of the logo image
 		required: false,
-		default: ''
+		default: '',
 	},
 	headerImage: {
 		type: String, // URL of the header image
 		required: false,
-		default: ''
+		default: '',
 	},
 });
 
