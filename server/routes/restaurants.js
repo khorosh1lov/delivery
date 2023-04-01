@@ -17,6 +17,22 @@ router.get('/', async (req, res) => {
 	}
 });
 
+// Endpoint for one restaurant by Slug
+router.get('/restaurant/:slug', async (req, res) => {
+	try {
+		const restaurant = await Restaurant.findOne({ slug: req.params.slug });
+		if (restaurant == null) {
+			return res.redirect('/');
+		}
+
+		res.status(200).json(restaurant);
+	} catch (error) {
+		console.error(error);
+
+		res.status(500).json({ message: 'Error with restaurant receiving' });
+	}
+});
+
 // Endpoint for one restaurant by ID
 router.get('/:restaurantId', async (req, res) => {
 	try {
@@ -76,35 +92,10 @@ router.get('/:restaurantId/dishes/:dishId', async (req, res) => {
 	}
 });
 
-// Endpoint for one restaurant by Slug
-router.get('/restaurant/:slug', async (req, res) => {
-	try {
-		const restaurant = await Restaurant.findOne({ slug: req.params.slug });
-		if (restaurant == null) {
-			return res.redirect('/');
-		}
-
-		res.status(200).json(restaurant);
-	} catch (error) {
-		console.error(error);
-
-		res.status(500).json({ message: 'Error with restaurant receiving' });
-	}
-});
-
 // Admin
 
 // Add a new restaurant
 router.post('/', dummyAuth, addRestaurant);
-
-// Upload new images
-app.post('/upload', upload.single('image'), (req, res) => {
-	if (req.file) {
-		res.status(201).json({ imageUrl: `/uploads/${req.file.filename}` });
-	} else {
-		res.status(400).json({ message: 'Error uploading image' });
-	}
-});
 
 // Add a new dish to a restaurant
 router.post('/:restaurantId/dishes', dummyAuth, addDish);

@@ -14,6 +14,7 @@ const restaurantsRouter = require('./routes/restaurants');
 const ordersRouter = require('./routes/orders');
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
+const uploadsRouter = require('./routes/uploads');
 
 // Middleware
 const { setUser } = require('./middlewares/user');
@@ -61,6 +62,7 @@ passportConfig(app);
 
 // Use Routes
 app.use('/', restaurantsRouter);
+app.use('/upload', uploadsRouter);
 app.use('/orders', ordersRouter);
 app.use('/user', usersRouter);
 app.use('/auth', authRouter);
