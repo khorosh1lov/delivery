@@ -5,6 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Imports
 const express = require('express');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const { connectDB } = require('./config/database');
 const passportConfig = require('./config/passport');
@@ -26,6 +27,10 @@ connectDB();
 // Init App
 const app = express();
 const path = require('path');
+
+// Set the payload size limit to 1 MB
+app.use(bodyParser.json({ limit: '1mb' }));
+app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }));
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
