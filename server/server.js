@@ -37,12 +37,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // CORS config
 const corsOptions = {
-  origin: process.env.FRONT_END_APP_URL || 'https://delivery-front-app.herokuapp.com',
-  optionsSuccessStatus: 200,
-  allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-  methods: 'GET, POST, PUT, DELETE, OPTIONS',
-  credentials: true,
+	origin: function (origin, callback) {
+		const allowedOrigins = [process.env.FRONT_END_APP_URL || 'https://delivery-front-app.herokuapp.com', 'http://localhost'];
+
+		if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+			callback(null, true);
+		} else {
+			callback(new Error('Not allowed by CORS'));
+		}
+	},
+	optionsSuccessStatus: 200,
+	allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+	methods: 'GET, POST, PUT, DELETE, OPTIONS',
+	credentials: true,
 };
+
 app.use(cors(corsOptions));
 
 app.use(express.json());
