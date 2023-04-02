@@ -54,23 +54,23 @@ router.get('/:restaurantId', async (req, res) => {
 
 // Endpoint to delete a restaurant by ID
 router.delete('/:restaurantId', async (req, res) => {
-  try {
-    const restaurantId = req.params.restaurantId;
-    console.log(restaurantId); // Resto ID in console
+	try {
+		const restaurantId = req.params.restaurantId;
+		console.log('Deleting restaurant with ID:', restaurantId);
 
-    const restaurant = await Restaurant.findById(restaurantId);
-    if (restaurant == null) {
-      return res.status(404).json({ message: 'Restaurant not found' });
-    }
+		const restaurant = await Restaurant.findById(restaurantId);
+		if (restaurant == null) {
+			return res.status(404).json({ message: 'Restaurant not found' });
+		}
 
-    await restaurant.remove();
-    res.status(200).json({ message: 'Restaurant deleted successfully' });
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({ message: 'Error deleting restaurant' });
-  }
+		await Restaurant.deleteOne({ _id: restaurantId });
+		res.status(200).json({ message: 'Restaurant deleted successfully' });
+	} catch (error) {
+		console.error('Error deleting restaurant:', error);
+		res.status(500).json({ message: 'Error deleting restaurant' });
+	}
 });
+
 
 // Endpoint for all Dishes in restaurant
 router.get('/:restaurantId/dishes', async (req, res) => {
