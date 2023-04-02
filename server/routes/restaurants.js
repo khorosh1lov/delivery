@@ -17,6 +17,17 @@ router.get('/', async (req, res) => {
 	}
 });
 
+// Endpoint for total restaurants count
+router.get('/count', async (req, res) => {
+  try {
+    const count = await Restaurant.countDocuments();
+    res.status(200).json(count);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error with restaurants count receiving' });
+  }
+});
+
 // Endpoint for one restaurant by Slug
 router.get('/restaurant/:slug', async (req, res) => {
 	try {
