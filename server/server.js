@@ -38,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // CORS config
 const corsOptions = {
 	origin: function (origin, callback) {
-		const allowedOrigins = [process.env.FRONT_END_APP_URL || 'https://delivery-front-app.herokuapp.com', 'http://localhost', '*'];
+		const allowedOrigins = [process.env.FRONT_END_APP_URL || 'https://delivery-front-app.herokuapp.com', 'http://localhost:3000', '*'];
 
 		if (!origin || allowedOrigins.indexOf(origin) !== -1) {
 			callback(null, true);
