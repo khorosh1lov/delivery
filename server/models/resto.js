@@ -7,6 +7,11 @@ const RestaurantSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	description: {
+		type: String,
+		required: false,
+		default: '',
+	},
 	address: {
 		type: {
 			street: String,
@@ -26,7 +31,12 @@ const RestaurantSchema = new mongoose.Schema({
 		default: '',
 	},
 	cuisine: { type: String, required: true },
-	rating: { type: Number, required: false, default: 3 },
+	ratings: [
+		{
+			user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+			rating: { type: Number, required: true, min: 1, max: 5 },
+		},
+	],
 	dishes: [new Schema(require('./dish').schema)],
 	slug: {
 		type: String,

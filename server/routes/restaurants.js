@@ -2,7 +2,7 @@ const express = require('express');
 const Restaurant = require('../models/resto');
 const router = express.Router();
 const ensureAdmin = require('../middlewares/ensureAdmin');
-const { addRestaurant, addDish, updateRestaurant } = require('../controllers/restaurants');
+const { addRestaurant, addDish, updateRestaurant, submitRating } = require('../controllers/restaurants');
 const upload = require('../middlewares/upload');
 const dummyAuth = require('../middlewares/dummyAuth'); // Import dummyAuth
 
@@ -100,6 +100,9 @@ router.get('/:restaurantId', async (req, res) => {
 		res.status(500).json({ message: 'Error with restaurant receiving' });
 	}
 });
+
+// Endpoint for new restaurant rating by ID
+router.post('/:restaurantId/ratings', submitRating);
 
 // Endpoint to delete a restaurant by ID
 router.delete('/:restaurantId', async (req, res) => {

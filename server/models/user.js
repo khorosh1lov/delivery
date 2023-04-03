@@ -44,6 +44,12 @@ const UserSchema = new mongoose.Schema({
 		required: false,
 		default: '',
 	},
+	ratedRestaurants: [
+		{ 
+			type: mongoose.Schema.Types.ObjectId, 
+			ref: 'Restaurant' 
+		}
+	],
 	cart: {
 		type: [ItemSchema],
 		default: [],
