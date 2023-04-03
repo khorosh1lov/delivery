@@ -9,7 +9,7 @@ const axios = require('axios');
 const API_KEY = process.env.PEXELS_API_KEY;
 const PEXELS_API_URL = 'https://api.pexels.com/v1/search';
 
-const fetchImages = async (query, width, height, perPage = 10, page = 1) => {
+const fetchImages = async (query, width, height, orientation = 'landscape', size = 'medium', type = 'photo', perPage = 10, page = 1) => {
 	try {
 		const response = await axios.get(PEXELS_API_URL, {
 			headers: {
@@ -19,6 +19,9 @@ const fetchImages = async (query, width, height, perPage = 10, page = 1) => {
 				query,
 				per_page: perPage,
 				page,
+				orientation,
+				size,
+				type
 			},
 		});
 
@@ -51,7 +54,7 @@ const fetchImages = async (query, width, height, perPage = 10, page = 1) => {
 			const dishes = [];
 			const dishCount = faker.datatype.number({ min: 3, max: 7 });
 
-			const foodImages = await fetchImages('food', 400, 400, dishCount);
+			const foodImages = await fetchImages('Dish food', 400, 400, 'square', 'small', 'photo', dishCount);
 
 			for (let i = 0; i < dishCount; i++) {
 				const image = foodImages[i] ? foodImages[i].src.medium : '';
@@ -87,8 +90,8 @@ const fetchImages = async (query, width, height, perPage = 10, page = 1) => {
 
 		async function createRestaurants() {
 			try {
-				const logoImages = await fetchImages('logo', 400, 400, 25);
-				const headerImages = await fetchImages('cafe', 720, 360, 25);
+				const logoImages = await fetchImages('Cafe logo', 400, 400, 'square', 'small', 'photo', 25);
+				const headerImages = await fetchImages('Cafe view', 720, 400, 'landscape', 'small', 'photo', 25);
 				
 				for (let i = 0; i < 25; i++) {
 					const dishes = await generateDishes();

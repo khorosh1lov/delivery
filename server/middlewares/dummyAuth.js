@@ -1,7 +1,7 @@
 function dummyAuth(req, res, next) {
 	// Set a dummy user object for development purposes
 	req.user = {
-		_id: '642652635bd781ad3b36d15c',
+		_id: '642a2e2c96c5157f8455043d',
 		role: 'admin',
 	};
 	next();
