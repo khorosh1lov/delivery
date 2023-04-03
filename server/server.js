@@ -81,7 +81,7 @@ app.use('/upload', uploadsRouter);
 app.use('/orders', ordersRouter);
 //app.use('/user', usersRouter);
 app.use('/auth', authRouter);
-//app.use('/admin', adminsRouter);
+app.use('/admin', adminsRouter);
 
 // 404 Not Found Error
 app.use((req, res, next) => {
