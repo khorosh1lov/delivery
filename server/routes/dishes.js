@@ -41,3 +41,5 @@ router.get('/:restaurantId/:dishId', async (req, res) => {
 		res.status(500).json({ message: 'Error with dish receiving' });
 	}
 });
+
+module.exports = router;
