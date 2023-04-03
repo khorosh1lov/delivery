@@ -1,4 +1,6 @@
+const express = require('express');
 const Restaurant = require('../models/resto');
+const router = express.Router();
 
 // Endpoint for all Dishes in restaurant
 router.get('/:restaurantId', async (req, res) => {
