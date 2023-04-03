@@ -27,7 +27,19 @@ router.get('/count', async (req, res) => {
 // Endpoint for daily restaurant data
 router.get('/dailyData', async (req, res) => {
     try {
+        const today = new Date();
+        const tenDaysAgo = new Date(today);
+        tenDaysAgo.setDate(today.getDate() - 10);
+
         const dailyData = await Restaurant.aggregate([
+            {
+                $match: {
+                    createdAt: {
+                        $gte: tenDaysAgo,
+                        $lt: today
+                    }
+                }
+            },
             {
                 $group: {
                     _id: {
@@ -55,6 +67,7 @@ router.get('/dailyData', async (req, res) => {
             },
             { $sort: { 'date': 1 } }
         ]);
+
         res.status(200).json(dailyData);
     } catch (error) {
         console.error(error);
