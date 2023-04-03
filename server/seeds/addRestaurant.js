@@ -90,8 +90,8 @@ const fetchImages = async (query, width, height, orientation = 'landscape', size
 
 		async function createRestaurants() {
 			try {
-				const logoImages = await fetchImages('Cafe logo', 400, 400, 'square', 'small', 'photo', 25);
-				const headerImages = await fetchImages('Cafe view', 720, 400, 'landscape', 'small', 'photo', 25);
+				const logoImages = await fetchImages('Cafe and Restaurants logotypes', 400, 400, 'square', 'small', 'photo', 25);
+				const headerImages = await fetchImages('Cafe and Restaurants views', 720, 400, 'landscape', 'small', 'photo', 25);
 				
 				for (let i = 0; i < 25; i++) {
 					const dishes = await generateDishes();
