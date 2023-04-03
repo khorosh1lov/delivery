@@ -5,6 +5,7 @@ const ensureAuth = require('../middlewares/auth');
 const dummyAuth = require('../middlewares/dummyAuth'); // I
 const checkUserAccess = require('../middlewares/checkAccess');
 const { NotFoundError, ForbiddenError } = require('../errors');
+const { submitRating } = require('../controllers/restaurants');
 const router = express.Router();
 
 // Endpoint for only one User by User ID
@@ -81,6 +82,8 @@ router.get('/:userId/orders/:orderId', dummyAuth, checkUserAccess, async (req, r
 	}
 });
 
+// Endpoint for new restaurant rating by ID
+router.post('/:restaurantId/rating/submit', submitRating);
 
 // Endpoint to create a new order for a user
 router.post('/:userId/orders', ensureAuth, checkUserAccess, async (req, res, next) => {

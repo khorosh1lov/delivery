@@ -12,6 +12,8 @@ const passportConfig = require('./config/passport');
 
 // Routes
 const restaurantsRouter = require('./routes/restaurants');
+const dishesRouter = require('./routes/dishes');
+const adminsRouter = require('./routes/admins');
 const ordersRouter = require('./routes/orders');
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
@@ -74,10 +76,12 @@ passportConfig(app);
 
 // Use Routes
 app.use('/', restaurantsRouter);
+app.use('/dishes', dishesRouter);
 app.use('/upload', uploadsRouter);
 app.use('/orders', ordersRouter);
 app.use('/user', usersRouter);
 app.use('/auth', authRouter);
+app.use('/admin', adminsRouter);
 
 // 404 Not Found Error
 app.use((req, res, next) => {
