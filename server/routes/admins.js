@@ -2,7 +2,7 @@ const express = require('express');
 const Restaurant = require('../models/resto');
 const router = express.Router();
 const dummyAuth = require('../middlewares/dummyAuth');
-const { addRestaurant, addDish, updateRestaurant } = require('../controllers/restaurantController');
+const { addRestaurant, addDish, updateRestaurant } = require('../controllers/adminController');
 
 // Add a new Restaurant
 router.post('/', dummyAuth, addRestaurant);
