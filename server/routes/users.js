@@ -83,7 +83,7 @@ router.get('/:userId/orders/:orderId', dummyAuth, checkUserAccess, async (req, r
 });
 
 // Endpoint for new restaurant rating by ID
-router.post('/:restaurantId/rating/submit', submitRating);
+router.post('/:restaurantId/rating/submit', ensureAuth, submitRating);
 
 // Endpoint to create a new order for a user
 router.post('/:userId/orders', ensureAuth, checkUserAccess, async (req, res, next) => {
