@@ -56,7 +56,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-
 app.use(express.json());
 
 // Use handleFavicon Middleware: Favicon avoiding, remove after development

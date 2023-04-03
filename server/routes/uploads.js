@@ -1,13 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const upload = require('../middlewares/upload');
+const { addImage } = require('../controllers/uploadController');
 
-router.post('/image', upload.single('image'), (req, res) => {
-	if (req.file) {
-		res.status(201).json({ imageUrl: `/uploads/${req.file.filename}` });
-	} else {
-		res.status(400).json({ message: 'Error uploading image' });
-	}
-});
+// Upload new Image to the server
+router.post('/image', upload.single('image'), addImage);
 
 module.exports = router;

@@ -4,11 +4,13 @@ const router = express.Router();
 const dummyAuth = require('../middlewares/dummyAuth');
 const { addRestaurant, addDish, updateRestaurant } = require('../controllers/restaurantController');
 
-// Add a new restaurant
+// Add a new Restaurant
 router.post('/', dummyAuth, addRestaurant);
-// Update a restaurant by ID
+
+// Update Restaurant by ID
 router.put('/:restaurantId', dummyAuth, updateRestaurant);
-// Add a new dish to a restaurant
+
+// Add a new Dish to Restaurant
 router.post('/:restaurantId/dishes', dummyAuth, addDish);
 
 module.exports = router;
