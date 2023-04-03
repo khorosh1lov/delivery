@@ -1,5 +1,6 @@
 const Restaurant = require('../models/resto');
 const Dish = require('../models/dish');
+const User = require('../models/user');
 
 exports.addRestaurant = async (req, res) => {
 	const restaurantData = req.body;
