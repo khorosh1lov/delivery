@@ -28,6 +28,36 @@ router.get('/count', async (req, res) => {
   }
 });
 
+// Endpoint for monthly restaurant data
+router.get('/monthlyData', async (req, res) => {
+    try {
+        const monthlyData = await Restaurant.aggregate([
+            {
+                $group: {
+                    _id: {
+                        month: { $month: '$createdAt' },
+                        year: { $year: '$createdAt' }
+                    },
+                    total: { $sum: 1 }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    month: { $concat: [{ $toString: '$_id.month' }, '/', { $toString: '$_id.year' }] },
+                    total: 1
+                }
+            },
+            { $sort: { 'month': 1 } }
+        ]);
+        res.status(200).json(monthlyData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching monthly restaurant data' });
+    }
+});
+
+
 // Endpoint for one restaurant by Slug
 router.get('/restaurant/:slug', async (req, res) => {
 	try {
