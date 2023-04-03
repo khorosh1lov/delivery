@@ -8,6 +8,25 @@ exports.addRestaurant = async (req, res) => {
 	res.status(201).json({ message: 'Restaurant added', restaurant });
 };
 
+exports.updateRestaurant = async (req, res) => {
+	const { restaurantId } = req.params;
+	const updatedData = req.body;
+
+	try {
+		const restaurant = await Restaurant.findByIdAndUpdate(restaurantId, updatedData, { new: true });
+
+		if (!restaurant) {
+			return res.status(404).json({ message: 'Restaurant not found' });
+		}
+
+		res.status(200).json({ message: 'Restaurant updated successfully', restaurant });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: 'Error updating restaurant' });
+	}
+};
+
+
 exports.addDish = async (req, res) => {
 	const { restaurantId } = req.params;
 	const dishData = req.body;
