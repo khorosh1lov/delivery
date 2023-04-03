@@ -56,6 +56,10 @@ const RestaurantSchema = new mongoose.Schema({
 		required: false,
 		default: '',
 	},
+	createdAt: {
+		type: Date,
+		default: Date.now,
+	},
 });
 
 // Pre-validate hook to generate slug

@@ -28,13 +28,14 @@ router.get('/count', async (req, res) => {
   }
 });
 
-// Endpoint for monthly restaurant data
-router.get('/monthlyData', async (req, res) => {
+// Endpoint for daily restaurant data
+router.get('/dailyData', async (req, res) => {
     try {
-        const monthlyData = await Restaurant.aggregate([
+        const dailyData = await Restaurant.aggregate([
             {
                 $group: {
                     _id: {
+                        day: { $dayOfMonth: '$createdAt' },
                         month: { $month: '$createdAt' },
                         year: { $year: '$createdAt' }
                     },
@@ -44,19 +45,26 @@ router.get('/monthlyData', async (req, res) => {
             {
                 $project: {
                     _id: 0,
-                    month: { $concat: [{ $toString: '$_id.month' }, '/', { $toString: '$_id.year' }] },
+                    date: {
+                        $concat: [
+                            { $toString: '$_id.month' },
+                            '/',
+                            { $toString: '$_id.day' },
+                            '/',
+                            { $toString: '$_id.year' }
+                        ]
+                    },
                     total: 1
                 }
             },
-            { $sort: { 'month': 1 } }
+            { $sort: { 'date': 1 } }
         ]);
-        res.status(200).json(monthlyData);
+        res.status(200).json(dailyData);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error fetching monthly restaurant data' });
+        res.status(500).json({ message: 'Error fetching daily restaurant data' });
     }
 });
-
 
 // Endpoint for one restaurant by Slug
 router.get('/restaurant/:slug', async (req, res) => {
