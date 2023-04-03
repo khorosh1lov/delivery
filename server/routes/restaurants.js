@@ -102,7 +102,7 @@ router.get('/:restaurantId', async (req, res) => {
 });
 
 // Endpoint for new restaurant rating by ID
-router.post('/:restaurantId/ratings', submitRating);
+router.post('/:restaurantId/rating/submit', submitRating);
 
 // Endpoint to delete a restaurant by ID
 router.delete('/:restaurantId', async (req, res) => {
