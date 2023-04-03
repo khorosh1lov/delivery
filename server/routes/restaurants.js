@@ -1,21 +1,13 @@
 const express = require('express');
 const Restaurant = require('../models/resto');
 const router = express.Router();
-const restaurantController = require('../controllers/restaurantController');
+const { getAllRestaurants, countRestaurants } = require('../controllers/restaurantController');
 
 // Endpoint for all restaurants
-router.get('/', restaurantController.getAllRestaurants);
+router.get('/', getAllRestaurants);
 
-// Endpoint for total restaurants count
-router.get('/count', async (req, res) => {
-  try {
-    const count = await Restaurant.countDocuments();
-    res.status(200).json(count);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error with restaurants count receiving' });
-  }
-});
+// Endpoint for total Restaurants count
+router.get('/count', countRestaurants);
 
 // Endpoint for daily restaurant data
 router.get('/dailyData', async (req, res) => {

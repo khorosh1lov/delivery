@@ -6,24 +6,6 @@ const { connectDB, mongoose } = require('../config/database');
 	try {
 		await connectDB(); // Connect to the database using the imported function
 
-		// Drop the users collection
-		await mongoose.connection.collection('users').drop((err) => {
-			if (err) {
-				console.error('Error dropping users collection:', err);
-			} else {
-				console.log('Dropped users collection');
-			}
-		});
-
-		// Drop the restaurants collection
-		await mongoose.connection.collection('restaurants').drop((err) => {
-			if (err) {
-				console.error('Error dropping restaurants collection:', err);
-			} else {
-				console.log('Dropped restaurants collection');
-			}
-		});
-
 		// Drop the orders collection
 		await mongoose.connection.collection('orders').drop((err) => {
 			if (err) {

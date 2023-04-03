@@ -1,8 +1,7 @@
 const Restaurant = require('../models/resto');
 const Dish = require('../models/dish');
-const User = require('../models/user');
 
-// GET All Restaurants for '/'
+// GET: All Restaurants for root path '/'
 exports.getAllRestaurants = async (req, res) => {
 	try {
 		const restaurants = await Restaurant.find();
@@ -13,6 +12,7 @@ exports.getAllRestaurants = async (req, res) => {
 	}
 };
 
+// POST: New Restaurant
 exports.addRestaurant = async (req, res) => {
 	const restaurantData = req.body;
 	const restaurant = new Restaurant(restaurantData);
@@ -20,6 +20,7 @@ exports.addRestaurant = async (req, res) => {
 	res.status(201).json({ message: 'Restaurant added', restaurant });
 };
 
+// PUT: update Restaurant by ID
 exports.updateRestaurant = async (req, res) => {
 	const { restaurantId } = req.params;
 	const updatedData = req.body;
@@ -38,42 +39,7 @@ exports.updateRestaurant = async (req, res) => {
 	}
 };
 
-exports.submitRating = async (req, res) => {
-	const { restaurantId, userId, rating } = req.body;
-
-	try {
-		const restaurant = await Restaurant.findById(restaurantId);
-		const user = await User.findById(userId);
-
-		if (!restaurant || !user) {
-			return res.status(404).json({ message: 'Restaurant or user not found' });
-		}
-
-		// Check if the user has already rated this restaurant
-		const existingRating = restaurant.ratings.find((r) => r.user.toString() === userId);
-
-		if (existingRating) {
-			existingRating.rating = rating;
-		} else {
-			restaurant.ratings.push({ user: userId, rating });
-			user.ratedRestaurants.push(restaurantId);
-			await user.save();
-		}
-
-		await restaurant.save();
-
-		// Calculate the new median rating
-		const sortedRatings = restaurant.ratings.map((r) => r.rating).sort((a, b) => a - b);
-		const middleIndex = Math.floor(sortedRatings.length / 2);
-		const medianRating = sortedRatings.length % 2 === 0 ? (sortedRatings[middleIndex - 1] + sortedRatings[middleIndex]) / 2 : sortedRatings[middleIndex];
-
-		res.status(200).json({ message: 'Rating submitted successfully', medianRating });
-	} catch (error) {
-		console.error(error);
-		res.status(500).json({ message: 'Error submitting rating' });
-	}
-};
-
+// POST: New Dish for Restaurant
 exports.addDish = async (req, res) => {
 	const { restaurantId } = req.params;
 	const dishData = req.body;
@@ -89,4 +55,15 @@ exports.addDish = async (req, res) => {
 	await restaurant.save();
 
 	res.status(201).json({ message: 'Dish added', dish });
+};
+
+// GET: Total count of Restaurants
+exports.countRestaurants = async (req, res) => {
+	try {
+		const count = await Restaurant.countDocuments();
+		res.status(200).json(count);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: 'Error with restaurants count receiving' });
+	}
 };
