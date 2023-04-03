@@ -2,6 +2,17 @@ const Restaurant = require('../models/resto');
 const Dish = require('../models/dish');
 const User = require('../models/user');
 
+// GET All Restaurants for '/'
+exports.getAllRestaurants = async (req, res) => {
+	try {
+		const restaurants = await Restaurant.find();
+		res.status(200).json(restaurants);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: 'Error with restaurants list receiving' });
+	}
+};
+
 exports.addRestaurant = async (req, res) => {
 	const restaurantData = req.body;
 	const restaurant = new Restaurant(restaurantData);

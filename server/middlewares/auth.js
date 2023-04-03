@@ -1,4 +1,3 @@
-// ensureAuth.js
 const { UnauthorizedError } = require('../errors');
 
 // Ensures that the user is authenticated

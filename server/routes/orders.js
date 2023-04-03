@@ -1,9 +1,6 @@
 const express = require('express');
 const Order = require('../models/order');
 const User = require('../models/user');
-//const ensureAuth = require('../middlewares/auth');
-//const checkUserAccess = require('../middlewares/checkAccess');
-//const { setUser } = require('../middlewares/user');
 const { NotFoundError, ForbiddenError } = require('../errors');
 const dummyAuth = require('../middlewares/dummyAuth'); // Import dummyAuth
 const router = express.Router();

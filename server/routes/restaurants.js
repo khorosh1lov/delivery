@@ -1,17 +1,10 @@
 const express = require('express');
 const Restaurant = require('../models/resto');
 const router = express.Router();
+const restaurantController = require('../controllers/restaurantController');
 
 // Endpoint for all restaurants
-router.get('/', async (req, res) => {
-	try {
-		const restaurants = await Restaurant.find();
-		res.status(200).json(restaurants);
-	} catch (error) {
-		console.error(error);
-		res.status(500).json({ message: 'Error with restaurants list receiving' });
-	}
-});
+router.get('/', restaurantController.getAllRestaurants);
 
 // Endpoint for total restaurants count
 router.get('/count', async (req, res) => {

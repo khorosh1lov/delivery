@@ -5,7 +5,7 @@ const ensureAuth = require('../middlewares/auth');
 const dummyAuth = require('../middlewares/dummyAuth'); // I
 const checkUserAccess = require('../middlewares/checkAccess');
 const { NotFoundError, ForbiddenError } = require('../errors');
-const { submitRating } = require('../controllers/restaurants');
+const { submitRating } = require('../controllers/restaurantController');
 const router = express.Router();
 
 // Endpoint for only one User by User ID
