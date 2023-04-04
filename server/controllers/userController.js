@@ -120,7 +120,9 @@ exports.updateOrder = async (req, res, next) => {
 
 // POST: new Rating by User for Restaurant
 exports.submitRating = async (req, res) => {
-	const { restaurantId, userId, rating } = req.body;
+	const userId = req.params.userId;
+	const restaurantId = req.params.restaurantId;
+	const { rating } = req.body;
 
 	try {
 		const restaurant = await Restaurant.findById(restaurantId);
