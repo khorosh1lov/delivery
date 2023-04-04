@@ -1,4 +1,3 @@
-// checkUserAccess.js
 const { ForbiddenError } = require('../errors');
 
 function checkUserAccess(req, res, next) {

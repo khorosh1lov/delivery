@@ -1,6 +1,5 @@
 const express = require('express');
 const ensureAuth = require('../middlewares/auth');
-const dummyAuth = require('../middlewares/dummyAuth'); // I
 const checkUserAccess = require('../middlewares/checkAccess');
 const { getUser, getOrders, getOrder, addOrder, updateOrder, submitRating } = require('../controllers/userController');
 
@@ -13,7 +12,7 @@ router.get('/:userId', ensureAuth, checkUserAccess, getUser);
 router.get('/:userId/orders', ensureAuth, checkUserAccess, getOrders);
 
 // Endpoint for a specific order by User ID and Order ID
-router.get('/:userId/orders/:orderId', dummyAuth, checkUserAccess, getOrder);
+router.get('/:userId/orders/:orderId', ensureAuth, checkUserAccess, getOrder);
 
 // Endpoint to create a new Order for a User
 router.post('/:userId/orders', ensureAuth, checkUserAccess, addOrder);
@@ -22,6 +21,6 @@ router.post('/:userId/orders', ensureAuth, checkUserAccess, addOrder);
 router.put('/:userId/orders/:orderId', ensureAuth, checkUserAccess, updateOrder);
 
 // Endpoint new Rating for Restaurant by ID
-router.post('/:userId/restaurant/:restaurantId/rating/submit', submitRating);
+router.post('/:userId/restaurant/:restaurantId/rating/submit', ensureAuth, submitRating);
 
 module.exports = router;
