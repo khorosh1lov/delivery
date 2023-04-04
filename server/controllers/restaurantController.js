@@ -135,7 +135,7 @@ exports.getDailyData = async (req, res) => {
 				$match: {
 					createdAt: {
 						$gte: tenDaysAgo,
-						$lte: today, // Change $lt to $lte to include the current date
+						$lte: today,
 					},
 				},
 			},
@@ -161,7 +161,22 @@ exports.getDailyData = async (req, res) => {
 			{ $sort: { date: 1 } },
 		]);
 
-		res.status(200).json(dailyData);
+		const filledData = [];
+		
+		for (let i = 0; i < 10; i++) {
+			const currentDate = new Date(tenDaysAgo);
+			currentDate.setDate(currentDate.getDate() + i);
+			const dateStr = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
+			const found = dailyData.find((item) => item.date === dateStr);
+
+			if (found) {
+				filledData.push(found);
+			} else {
+				filledData.push({ date: dateStr, total: 0 });
+			}
+		}
+
+		res.status(200).json(filledData);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ message: 'Error fetching daily restaurant data' });
