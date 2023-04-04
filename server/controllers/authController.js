@@ -51,7 +51,18 @@ exports.login = (req, res, next) => {
 				return next(err);
 			}
 			// Generate JWT token and send it to the client
-			const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
+			const token = jwt.sign(
+				{
+					id: user._id,
+					name: user.name,
+					email: user.email,
+					role: user.role, // Make sure the role is included in the JWT payload
+				},
+				process.env.JWT_SECRET,
+				{
+					expiresIn: process.env.JWT_EXPIRES_IN,
+				},
+			);
 			return res.status(200).json({ message: 'Login successful', token });
 		});
 	})(req, res, next);
