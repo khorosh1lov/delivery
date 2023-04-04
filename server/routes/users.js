@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/:userId', ensureAuth, checkUserAccess, getUser);
 
 // Endpoint new Rating for Restaurant by ID
-router.post('/:userId/:restaurantId/rating/submit', ensureAuth, submitRating);
+router.post('/:userId/restaurant/:restaurantId/rating/submit', ensureAuth, submitRating);
 
 // Endpoint for all orders for only one User by User ID
 router.get('/:userId/orders', ensureAuth, checkUserAccess, getOrders);
