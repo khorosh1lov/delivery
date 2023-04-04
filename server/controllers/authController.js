@@ -1,6 +1,4 @@
 const passport = require('passport');
-const jwt = require('jsonwebtoken'); // Import jwt
-const { JWT_SECRET } = process.env; // Import JWT_SECRET
 const User = require('../models/user');
 
 // POST: Signup User
@@ -50,9 +48,7 @@ exports.login = (req, res, next) => {
 				console.log('Login user error:', err);
 				return next(err);
 			}
-			// Generate JWT token and send it to the client
-			const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
-			return res.status(200).json({ message: 'Login successful', token });
+			return res.status(200).json({ message: 'Login successful', user });
 		});
 	})(req, res, next);
 };

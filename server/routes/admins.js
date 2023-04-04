@@ -1,16 +1,16 @@
 const express = require('express');
+const Restaurant = require('../models/resto');
 const router = express.Router();
-const auth = require('../middlewares/auth');
-const ensureAdmin = require('../middlewares/ensureAdmin');
+const dummyAuth = require('../middlewares/dummyAuth');
 const { addRestaurant, addDish, updateRestaurant } = require('../controllers/restaurantController');
 
 // Add a new Restaurant
-router.post('/', auth, ensureAdmin, addRestaurant);
+router.post('/', dummyAuth, addRestaurant);
 
 // Update Restaurant by ID
-router.put('/:restaurantId', auth, ensureAdmin, updateRestaurant);
+router.put('/:restaurantId', dummyAuth, updateRestaurant);
 
 // Add a new Dish to Restaurant
-router.post('/:restaurantId/dishes', auth, ensureAdmin, addDish);
+router.post('/:restaurantId/dishes', dummyAuth, addDish);
 
 module.exports = router;

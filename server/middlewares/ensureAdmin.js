@@ -1,7 +1,8 @@
 const { UnauthorizedError } = require('../errors');
 
+// Ensures that the user is authenticated and has the 'admin' role
 function ensureAdmin(req, res, next) {
-	if (req.user) {
+	if (req.isAuthenticated()) {
 		if (req.user.role === 'admin') {
 			return next();
 		}
