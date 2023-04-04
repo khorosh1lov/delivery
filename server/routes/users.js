@@ -9,6 +9,9 @@ const router = express.Router();
 // Endpoint for only one User by User ID
 router.get('/:userId', ensureAuth, checkUserAccess, getUser);
 
+// Endpoint new Rating for Restaurant by ID
+router.post('/:userId/restaurant/:restaurantId/rating/submit', ensureAuth, submitRating);
+
 // Endpoint for all orders for only one User by User ID
 router.get('/:userId/orders', ensureAuth, checkUserAccess, getOrders);
 
@@ -20,8 +23,5 @@ router.post('/:userId/orders', ensureAuth, checkUserAccess, addOrder);
 
 // Endpoint to update an order for a user
 router.put('/:userId/orders/:orderId', ensureAuth, checkUserAccess, updateOrder);
-
-// Endpoint new Rating for Restaurant by ID
-router.post('/:userId/restaurant/:restaurantId/rating/submit', ensureAuth, submitRating);
 
 module.exports = router;
