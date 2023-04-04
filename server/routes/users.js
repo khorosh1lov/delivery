@@ -21,6 +21,6 @@ router.post('/:userId/orders', ensureAuth, checkUserAccess, addOrder);
 router.put('/:userId/orders/:orderId', ensureAuth, checkUserAccess, updateOrder);
 
 // Endpoint new Rating for Restaurant by ID
-router.post('/:userId/restaurant/:restaurantId/rating/submit', ensureAuth, submitRating);
+router.post('/:userId/restaurant/:restaurantId/rating/submit', submitRating);
 
 module.exports = router;
