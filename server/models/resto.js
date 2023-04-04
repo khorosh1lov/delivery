@@ -13,20 +13,20 @@ const RestaurantSchema = new mongoose.Schema({
 		default: '',
 	},
 	address: {
-		type: {
+		type: new Schema({
 			street: String,
 			city: String,
 			state: String,
 			zip: String,
-		},
+		}),
 		required: false,
 		default: '',
 	},
 	contactInfo: {
-		type: {
+		type: new Schema({
 			phone: String,
 			email: String,
-		},
+		}),
 		required: false,
 		default: '',
 	},
