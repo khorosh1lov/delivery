@@ -134,7 +134,6 @@ exports.getDailyData = async (req, res) => {
 			{
 				$match: {
 					createdAt: {
-						$gte: tenDaysAgo,
 						$lte: today,
 					},
 				},
@@ -150,6 +149,9 @@ exports.getDailyData = async (req, res) => {
 				},
 			},
 			{
+				$sort: { '_id.year': 1, '_id.month': 1, '_id.day': 1 },
+			},
+			{
 				$project: {
 					_id: 0,
 					date: {
@@ -158,11 +160,29 @@ exports.getDailyData = async (req, res) => {
 					total: 1,
 				},
 			},
-			{ $sort: { date: 1 } },
+			{
+				$group: {
+					_id: '$date',
+					total: { $last: '$total' },
+				},
+			},
+			{
+				$project: {
+					_id: 0,
+					date: '$_id',
+					total: { $sum: ['$total'] },
+				},
+			},
+			{
+				$sort: { date: 1 },
+			},
+			{
+				$limit: 10,
+			},
 		]);
 
 		const filledData = [];
-		
+
 		for (let i = 0; i < 10; i++) {
 			const currentDate = new Date(tenDaysAgo);
 			currentDate.setDate(currentDate.getDate() + i);
