@@ -170,7 +170,7 @@ exports.getDailyData = async (req, res) => {
 				$project: {
 					_id: 0,
 					date: '$_id',
-					total: { $sum: ['$total'] },
+					total: 1,
 				},
 			},
 			{
@@ -183,6 +183,7 @@ exports.getDailyData = async (req, res) => {
 
 		const filledData = [];
 
+		let cumulativeTotal = 0;
 		for (let i = 0; i < 10; i++) {
 			const currentDate = new Date(tenDaysAgo);
 			currentDate.setDate(currentDate.getDate() + i);
@@ -190,9 +191,10 @@ exports.getDailyData = async (req, res) => {
 			const found = dailyData.find((item) => item.date === dateStr);
 
 			if (found) {
-				filledData.push(found);
+				cumulativeTotal += found.total;
+				filledData.push({ date: dateStr, total: cumulativeTotal });
 			} else {
-				filledData.push({ date: dateStr, total: 0 });
+				filledData.push({ date: dateStr, total: cumulativeTotal });
 			}
 		}
 
